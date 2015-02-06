@@ -199,9 +199,12 @@ task :destroy => :setup do
   @server.destroy!
 end
 
-task :upload => :setup do
-  system "tar -zcf ./tmp/cookbook-elasticsearch.tar.gz --exclude='.git,.vagrant,tmp,test,tests' ."
+desc "Package the cookbook into a .tar.gz file"
+task :package do
+  system "tar -zcf ./tmp/cookbook-elasticsearch.tar.gz --exclude=.git --exclude=.vagrant --exclude=tmp --exclude=test --exclude=tests ."
+end
 
+task :upload => [:package, :setup] do
   @server ||= Provision::Server.new @args
   @server.scp './tmp/node.json ./tmp/cookbook-elasticsearch.tar.gz', :path => '/tmp'
   @server.ssh 'sudo mkdir -p /tmp/cookbooks/elasticsearch && sudo tar -zxf /tmp/cookbook-elasticsearch.tar.gz -C /tmp/cookbooks/elasticsearch'
