@@ -80,8 +80,8 @@ ark_prefix_root = node.elasticsearch[:dir] || node.ark[:prefix_root]
 ark_prefix_home = node.elasticsearch[:dir] || node.ark[:prefix_home]
 
 filename = node.elasticsearch[:filename] || "elasticsearch-#{node.elasticsearch[:version]}.tar.gz"
-download_url = node.elasticsearch[:download_url] || [node.elasticsearch[:host],
-                node.elasticsearch[:repository], filename].join('/')
+download_url = node.elasticsearch[:download_url] ||
+               [node.elasticsearch[:host], node.elasticsearch[:repository], filename].join('/')
 
 ark "elasticsearch" do
   url   download_url
